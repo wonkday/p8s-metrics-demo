@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: metrics-demo
+  labels:
+    app: metrics-demo
+    environment: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: metrics-demo
+  template:
+    metadata:
+      labels:
+        app: metrics-demo
+        environment: dev
+        team: backend
+    spec:
+      containers:
+        - name: metrics-demo
+          image: docker.io/wonkday/metrics-demo:v1.0
+          ports:
+            - containerPort: 8080
+          #readinessProbe:
+          #  httpGet:
+          #    path: /actuator/health
+          #    port: 8080
+          #  initialDelaySeconds: 5
+          #  periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: metrics-demo
+spec:
+  selector:
+    app: metrics-demo
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9400

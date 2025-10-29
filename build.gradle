@@ -1,0 +1,34 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
+group = 'com.wonkday'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'io.prometheus:prometheus-metrics-core:1.4.1'
+    implementation 'io.prometheus:prometheus-metrics-exporter-httpserver:1.4.1'
+    implementation 'io.prometheus:prometheus-metrics-instrumentation-jvm:1.4.1'
+
+    // Uncomment if you want to use JUnit 5
+    // testImplementation platform('org.junit:junit-bom:5.10.0')
+    // testImplementation 'org.junit.jupiter:junit-jupiter'
+    // testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'com.wonkday.demo.metrics.MetricsDemo' // main class
+        )
+    }
+}
