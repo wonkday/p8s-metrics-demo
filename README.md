@@ -1,5 +1,8 @@
 ## Build metrics demo application 
 #### it can be used by prometheus to scrape data
+
+#### main use of this project is as a runtime ms that can generate p8s metrics and this info will be used in another project "project-name" which will use Langchain/Langgraph and LLM, mcp server and p8s client to interact with p8s. 
+
 #### Port: 
 PORT_NUM = 9400
 
