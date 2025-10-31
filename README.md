@@ -30,34 +30,47 @@ java -jar .\build\libs\P8sMetricsDemo-1.0-SNAPSHOT-all.jar
 
 ### Build image
 ```
-<path>\P8sMetricsDemo> docker build . -t wonkday/metrics-demo:v1.0
+<path>\P8sMetricsDemo> docker build . -t wonkday/metrics-demo:v2.0
 ```
 
 ### Verify Image
 ```
 <path>\P8sMetricsDemo> docker images
-REPOSITORY                    TAG       IMAGE ID       CREATED        SIZE
-wonkday/metrics-demo          v1.0      6a5c66f86927   27 seconds ago   81.9MB
+REPOSITORY                    TAG       IMAGE ID       CREATED         SIZE
+wonkday/metrics-demo          v2.0      d90f3423826f   2 minutes ago   81.9MB
 ```
 
 Optional:
 ```
-<path>\P8sMetricsDemo> docker push wonkday/metrics-demo:v1.0
+<path>\P8sMetricsDemo> docker push wonkday/metrics-demo:v2.0
 ```
 
-### Load image to k8s
+### Load image to k8s (in WSL)
 ```
-minikube image load wonkday/metrics-demo:v1.0
+$ minikube image load wonkday/metrics-demo:v2.0
 ```
 
 ### Verify loaded image
 ```
-<path>\P8sMetricsDemo> minikube image ls | Select-String -Pattern "metrics-demo"
-
+$ minikube image ls | grep metrics-demo
+docker.io/wonkday/metrics-demo:v2.0
 docker.io/wonkday/metrics-demo:v1.0
 ```
+### Deploy image to k8s (minikube in WSL-Ubuntu)
+```shell
+$ kubectl apply -f metrics-demo.yaml
+configmap/metrics-demo-config created
+deployment.apps/metrics-demo configured
+service/metrics-demo created
+```
+### Access WSL k8s service for metrics demo directly from windows
+```shell
+kubectl -n default port-forward svc/metrics-demo-service 9400:80
+```
+After port forward, access metrics data via - http://localhost:9400/metrics
 
-### Accessing demo app in local cluster via ingress
+
+#### Accessing demo app in local cluster via ingress
 
 #### Install 'ingress' add-on
 ```shell

@@ -24,7 +24,7 @@ ENV JAVA_TOOL_OPTIONS="-Xss512k -XX:+UseSerialGC"
 COPY --from=jre_builder /jre-slim /opt/jre-slim
 
 # Copy your application JAR
-COPY build/libs/P8sMetricsDemo-1.0-SNAPSHOT-all.jar /app/app.jar
+COPY build/libs/P8sMetricsDemo-2.0-SNAPSHOT-all.jar /app/app.jar
 
 # Run the app
 CMD ["java", "-jar", "/app/app.jar"]

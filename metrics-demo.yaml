@@ -1,3 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: metrics-demo-config
+  labels:
+    app: metrics-demo
+data:
+  namespace: "default"
+  appName: "metrics-demo"
+  uriBase: "/domain/demo-api"
+  status_200_percent: "50"
+  status_201_percent: "20"
+  status_401_percent: "10"
+  status_404_percent: "10"
+  status_500_percent: "10"
+  sleepTimeInMillis: "20000"
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -19,9 +36,12 @@ spec:
     spec:
       containers:
         - name: metrics-demo
-          image: docker.io/wonkday/metrics-demo:v1.0
+          image: docker.io/wonkday/metrics-demo:v2.0
           ports:
             - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: metrics-demo-config
           #readinessProbe:
           #  httpGet:
           #    path: /actuator/health
@@ -32,7 +52,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: metrics-demo
+  name: metrics-demo-service
 spec:
   selector:
     app: metrics-demo
